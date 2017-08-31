@@ -16,4 +16,13 @@ describe('Search', () => {
       expect(component.find(ShowCard).length).toEqual(preload.shows.length);
     });
   });
+
+  describe('given a search term', () => {
+    it('returns only matching records', () => {
+      const searchWord = 'black';
+      const component = shallow(<Search />);
+      component.find('input').simulate('change', {target: {value: searchWord}});
+      expect(component.find(ShowCard).length).toEqual(2);
+    });
+  });
 });
