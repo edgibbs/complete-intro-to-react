@@ -6,13 +6,13 @@ import ShowCard from '../ShowCard';
 
 describe('Search', () => {
   it('renders correctly', () => {
-    const component = shallow(<Search />);
+    const component = shallow(<Search shows={preload.shows} />);
     expect(component).toMatchSnapshot();
   });
 
   describe('given no search terms', () => {
     it('returns everything', () => {
-      const component = shallow(<Search />);
+      const component = shallow(<Search shows={preload.shows} />);
       expect(component.find(ShowCard).length).toEqual(preload.shows.length);
     });
   });
@@ -20,7 +20,7 @@ describe('Search', () => {
   describe('given a search term', () => {
     it('returns only matching records', () => {
       const searchWord = 'black';
-      const component = shallow(<Search />);
+      const component = shallow(<Search shows={preload.shows} />);
       component.find('input').simulate('change', {target: {value: searchWord}});
       expect(component.find(ShowCard).length).toEqual(2);
     });
