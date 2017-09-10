@@ -1,6 +1,12 @@
 // @flow
+import moxios from 'moxios';
+import {setSearchTerm, addAPIData, getAPIDetails} from '../actionCreators';
 
-import {setSearchTerm, addAPIData} from '../actionCreators';
+const strangerThings = {
+  title: 'Stranger Things',
+  imdbID: '12',
+  rating: '8.6'
+};
 
 describe('#setSearchTerm', () => {
   it('returns an action object', () => {
@@ -14,15 +20,33 @@ describe('#setSearchTerm', () => {
 
 describe('#addAPIData', () => {
   it('returns an action object', () => {
-    expect(
-      addAPIData({
-        title: 'Stranger Things',
-        imdbID: '12',
-        rating: '8.6'
-      })
-    ).toEqual({
+    expect(addAPIData(strangerThings)).toEqual({
       type: 'ADD_API_DATA',
       payload: {title: 'Stranger Things', imdbID: '12', rating: '8.6'}
+    });
+  });
+});
+
+describe('#getAPIDetails', () => {
+  it('gets some api data', (done: Function) => {
+    const dispatchMock = jest.fn();
+    moxios.withMock(() => {
+      getAPIDetails(strangerThings.imdbID)(dispatchMock);
+      moxios.wait(() => {
+        const request = moxios.requests.mostRecent();
+        request
+          .respondWith({
+            status: 200,
+            response: strangerThings
+          })
+          .then(() => {
+            expect(request.url).toEqual(
+              `http://127.0.0.1:3000/${strangerThings.imdbID}`
+            );
+            expect(dispatchMock).toBeCalledWith(addAPIData(strangerThings));
+            done();
+          });
+      });
     });
   });
 });
