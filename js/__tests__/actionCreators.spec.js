@@ -1,10 +1,16 @@
+// @flow
+
 import moxios from 'moxios';
 import {setSearchTerm, addAPIData} from '../actionCreators';
 import getAPIDetails from '../asyncActions';
 
 const strangerThings = {
   title: 'Stranger Things',
+  year: '2016-',
+  description: 'description',
+  poster: 'st.jpg',
   imdbID: '12',
+  trailer: 'trailer',
   rating: '8.6'
 };
 
@@ -22,7 +28,7 @@ describe('#addAPIData', () => {
   it('returns an action object', () => {
     expect(addAPIData(strangerThings)).toEqual({
       type: 'ADD_API_DATA',
-      payload: {title: 'Stranger Things', imdbID: '12', rating: '8.6'}
+      payload: strangerThings
     });
   });
 });
