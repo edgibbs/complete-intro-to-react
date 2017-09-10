@@ -1,5 +1,3 @@
-// @flow
-
 import moxios from 'moxios';
 import {setSearchTerm, addAPIData} from '../actionCreators';
 import getAPIDetails from '../asyncActions';
